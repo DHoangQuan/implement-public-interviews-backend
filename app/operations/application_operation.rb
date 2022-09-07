@@ -1,16 +1,15 @@
 # frozen_string_literal: true
 
-class ApplicationController < ActionController::API
+class ApplicationOperation
   private
 
   def render_error(status, title, message)
-    error_hash = {
+    {
+      status: status,
       errors: [
-        status: status,
         title: title,
         detail: message
       ]
     }
-    render json: error_hash, status: status
   end
 end

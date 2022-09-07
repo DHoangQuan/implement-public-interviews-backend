@@ -1,31 +1,51 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_909_023_324) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension 'plpgsql'
+ActiveRecord::Schema.define(version: 2022_09_07_075728) do
 
-  create_table 'accounts', force: :cascade do |t|
-    t.string 'first_name'
-    t.string 'last_name'
-    t.string 'phone_number'
-    t.string 'email'
-    t.integer 'status', default: 0, null: false
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-    t.index ['email'], name: 'index_accounts_on_email'
-    t.index ['phone_number'], name: 'index_accounts_on_phone_number'
-    t.index ['status'], name: 'index_accounts_on_status'
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "phone_number"
+    t.string "email"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_accounts_on_email"
+    t.index ["phone_number"], name: "index_accounts_on_phone_number"
+    t.index ["status"], name: "index_accounts_on_status"
   end
+
+  create_table "histories", force: :cascade do |t|
+    t.bigint "sender_id", null: false
+    t.bigint "reciever_id", null: false
+    t.integer "transfer_balance_cents", default: 0, null: false
+    t.string "transfer_balance_currency", default: "USD", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["sender_id", "reciever_id"], name: "index_histories_on_sender_id_and_reciever_id"
+  end
+
+  create_table "wallets", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.integer "balance_cents", default: 0, null: false
+    t.string "balance_currency", default: "USD", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_wallets_on_account_id"
+  end
+
 end

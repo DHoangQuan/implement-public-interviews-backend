@@ -19,13 +19,12 @@
 #  index_accounts_on_phone_number  (phone_number)
 #  index_accounts_on_status        (status)
 #
-FactoryBot.define do
-  factory :account do
-    first_name { Faker::Name.first_name }
-    last_name { Faker::Name.last_name }
-    email { Faker::Internet.email }
-    phone_number { Faker::PhoneNumber.cell_phone_in_e164 }
+class AccountSerializer
+  include FastJsonapi::ObjectSerializer
 
-    status { 0 }
+  attributes :first_name, :last_name, :email, :phone_number, :status
+
+  attribute :balance do |object|
+    object.wallet.balance.format
   end
 end
